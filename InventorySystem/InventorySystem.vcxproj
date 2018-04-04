@@ -112,13 +112,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DamagePotion.h" />
+    <ClInclude Include="HealPotion.h" />
     <ClInclude Include="IItem.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="ItemID.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DamagePotion.cpp" />
+    <ClCompile Include="HealPotion.cpp" />
     <ClCompile Include="IItem.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="linker_error_tests.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

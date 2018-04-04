@@ -1,5 +1,6 @@
 #include "DamagePotion.h"
 #include "Inventory.h"
+#include "HealPotion.h"
 
 std::ostream& operator<<(std::ostream& out, ItemID const& id)
 {
@@ -15,18 +16,36 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 class Player : public temp::GameObject
 {
 public:
-	Player()
+	Player() : temp::GameObject(200)
 	{
+		try
+		{
+			if (m_inventory.getOwner() == nullptr)
+			{
+				std::cout << "Owner was nullptr, setting to this...\n";
+				m_inventory.setOwner(this);
+			}
 
+			m_inventory.addItem<DamagePotion>("Damage Potion I", 50);
+			m_inventory.addItem<HealPotion>("Heal Potion I", 70);
+
+			m_inventory.useItem("Damage Potion I", this);
+			m_inventory.useItem("Heal Potion I", this);
+		}
+		catch (std::runtime_error e)
+		{
+			std::cerr << e.what();
+		}
 	}
+
 private:
-	Inventory m_inventory;
+	Inventory<200> m_inventory { this };
 };
 
 int main()
 {
 
-	
+	Player p;
 
 	IItem* base_ptr;
 
@@ -39,6 +58,8 @@ int main()
 	std::cout << "ID:\t" << base_ptr->id() << "\n";
 
 	base_ptr->use(&target);
+
+
 
 	std::cin.get();
 }

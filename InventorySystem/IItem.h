@@ -15,6 +15,7 @@ namespace temp
 		GameObject();
 		GameObject(int hp);
 
+		//pass negative dmg parameter to heal
 		virtual void damage(int dmg);
 
 		bool is_dead();
@@ -46,13 +47,16 @@ namespace temp
  *macros somewhere in your Item class in a place where they are publicly visible. Adding support for a new attribute is
  *done simply by modifying the base IItem class in the same way you would add an attribute to the derived Items.
  *Currently supported attributes are:
+ *
  *	RETURN TYPE      |      NAME        |       DEFAULT VALUE
  *	-----------------|------------------|--------------------
  *	std::string		 |		name		|		"Default Item"
  *	ItemID			 |		id			|		ItemID::DEFAULT_ITEM
  *	bool			 |		reusable    |		false 
+ *	bool             |      equipable   |       false
  *	
- *	If you don't override an attribute's value, it will get the default value*/
+ *	
+ *	If you don't override an attributes value, it will get the default value*/
 class IItem
 {
 public:
@@ -63,12 +67,15 @@ public:
 	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
 	ATTRIBUTE(reusable, false)
+	ATTRIBUTE(equipable, false)
 	
 private:
 
 };
 
+/*
 #undef BASE_ATTRIBUTE_NAME
 #undef BASE_ATTRIBUTE_ID
 #undef BASE_ATTRIBUTE_REUSABLE
 
+*/
