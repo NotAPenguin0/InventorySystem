@@ -9,6 +9,8 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 	return out;
 }
 
+//Replace temp::GameObject class with the GameObject class used by your game
+
 int main()
 {
 	IItem* base_ptr;

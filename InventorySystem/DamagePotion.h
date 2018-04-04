@@ -11,10 +11,10 @@ public:
 	virtual ~DamagePotion();
 
 	virtual void use(temp::GameObject* target) override;
-	
-	IMPLEMENT_ITEM_NAME("Damage Potion")
-	IMPLEMENT_ITEM_ID(ItemID::DAMAGE_POTION)
 
+	ATTRIBUTE_NAME("Damage Potion")
+	ATTRIBUTE_ID(ItemID::DAMAGE_POTION)
+	ATTRIBUTE_REUSABLE(false) //Damage potions are not reusable
 
 private:
 	int m_dmg;

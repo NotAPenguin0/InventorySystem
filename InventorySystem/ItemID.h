@@ -4,5 +4,6 @@
 
 enum class ItemID : uint32_t
 {
+	DEFAULT_ITEM,
 	DAMAGE_POTION
 };

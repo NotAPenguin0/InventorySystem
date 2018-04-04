@@ -26,8 +26,13 @@ namespace temp
 
 };
 
-#define IMPLEMENT_ITEM_NAME(_name) inline virtual std::string name() override {return _name;}
-#define IMPLEMENT_ITEM_ID(ID) inline virtual ItemID id() override {return ID;}
+#define ATTRIBUTE_NAME(_name) inline virtual std::string name() override {return _name;}
+#define ATTRIBUTE_ID(ID) inline virtual ItemID id() override {return ID;}
+#define ATTRIBUTE_REUSABLE(reusable_) inline virtual bool reusable() override {return reusable_;}
+
+#define BASE_ATTRIBUTE_NAME(_name) inline virtual std::string name() {return _name;}
+#define BASE_ATTRIBUTE_ID(ID) inline virtual ItemID id() {return ID;}
+#define BASE_ATTIRBUTE_REUSABLE(reusable_) inline virtual bool reusable() {return reusable_;}
 
 class IItem
 {
@@ -36,11 +41,15 @@ public:
 
 	virtual void use(temp::GameObject* target) = 0;
 
-	virtual std::string name() = 0;
-	virtual ItemID id() = 0;
-
+	BASE_ATTRIBUTE_NAME("Default Item")
+	BASE_ATTRIBUTE_ID(ItemID::DEFAULT_ITEM)
+	BASE_ATTIRBUTE_REUSABLE(false)
+	
 private:
 
-
 };
+
+#undef BASE_ATTRIBUTE_NAME
+#undef BASE_ATTRIBUTE_ID
+#undef BASE_ATTRIBUTE_REUSABLE
 
