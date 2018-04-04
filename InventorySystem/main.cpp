@@ -1,4 +1,5 @@
 #include "DamagePotion.h"
+#include "Inventory.h"
 
 std::ostream& operator<<(std::ostream& out, ItemID const& id)
 {
@@ -11,8 +12,21 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 
 //Replace temp::GameObject class with the GameObject class used by your game
 
+class Player : public temp::GameObject
+{
+public:
+	Player()
+	{
+
+	}
+private:
+	Inventory m_inventory;
+};
+
 int main()
 {
+
+	
 
 	IItem* base_ptr;
 

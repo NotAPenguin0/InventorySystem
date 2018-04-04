@@ -2,6 +2,11 @@
 
 namespace temp
 {
+	GameObject::GameObject() : m_hp(-1)
+	{
+
+	}
+
 	GameObject::GameObject(int hp) : m_hp(hp)
 	{
 		std::cout << "Creating GameObject with " << hp << " health\n";
