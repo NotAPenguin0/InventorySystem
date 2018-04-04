@@ -111,6 +111,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DamagePotion.h" />
+    <ClInclude Include="IItem.h" />
+    <ClInclude Include="ItemID.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DamagePotion.cpp" />
+    <ClCompile Include="IItem.cpp" />
+    <ClCompile Include="linker_error_tests.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
