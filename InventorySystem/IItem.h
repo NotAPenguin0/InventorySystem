@@ -26,7 +26,7 @@ namespace temp
 
 };
 
-#define IMPLEMENT_ITEM_NAME(_name) inline virtual std::string name() override {return #_name;}
+#define IMPLEMENT_ITEM_NAME(_name) inline virtual std::string name() override {return _name;}
 #define IMPLEMENT_ITEM_ID(ID) inline virtual ItemID id() override {return ID;}
 
 class IItem
