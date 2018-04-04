@@ -116,6 +116,7 @@
     <ClInclude Include="IItem.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="ItemID.h" />
+    <ClInclude Include="Sword.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DamagePotion.cpp" />
@@ -124,6 +125,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="linker_error_tests.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sword.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -133,9 +133,14 @@ void Inventory<MAX_SIZE>::useItem(inventory_type::iterator pos, temp::GameObject
 	auto& it = *pos;
 	auto& item = it.second;
 
-	if (item->equipable())
+	if (item->equippable())
 	{
-		item->use(m_owner);
+		if (!item->is_equipped())
+		{
+			item->set_equip();
+			item->use(m_owner);
+		}
+		return;
 	}
 	else
 	{

@@ -1,6 +1,7 @@
 #include "DamagePotion.h"
 #include "Inventory.h"
 #include "HealPotion.h"
+#include "Sword.h"
 
 std::ostream& operator<<(std::ostream& out, ItemID const& id)
 {
@@ -28,9 +29,13 @@ public:
 
 			m_inventory.addItem<DamagePotion>("Damage Potion I", 50);
 			m_inventory.addItem<HealPotion>("Heal Potion I", 70);
+			m_inventory.addItem<Sword>("Sword I", 20);
 
 			m_inventory.useItem("Damage Potion I", this);
 			m_inventory.useItem("Heal Potion I", this);
+			m_inventory.useItem("Sword I");
+
+			m_inventory.useItem("Sword I"); // won't do anything, Sword I is already equipped
 		}
 		catch (std::runtime_error e)
 		{
@@ -44,6 +49,8 @@ private:
 
 int main()
 {
+
+	//#TODO: Unequip
 
 	Player p;
 

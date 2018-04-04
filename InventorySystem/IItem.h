@@ -20,10 +20,13 @@ namespace temp
 
 		bool is_dead();
 
+		virtual void add_power(int extra_pwr);
+
 
 		//etc...
 	private:
 		int m_hp;
+		int m_power { 0 };
 	};
 
 };
@@ -53,7 +56,8 @@ namespace temp
  *	std::string      |      name        |       "Default Item"
  *	ItemID           |      id          |       ItemID::DEFAULT_ITEM
  *	bool             |      reusable    |       false 
- *	bool             |      equipable   |       false
+ *	bool             |      equippable  |       false
+ *	
  *	
  *	
  *	If you don't override an attributes value, it will get the default value*/
@@ -67,10 +71,13 @@ public:
 	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
 	ATTRIBUTE(reusable, false)
-	ATTRIBUTE(equipable, false)
-	
-private:
+	ATTRIBUTE(equippable, false)
 
+	bool is_equipped();
+	void set_equip();
+
+private:
+	bool m_equipped { false };
 };
 
 /*

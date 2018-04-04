@@ -26,9 +26,25 @@ namespace temp
 	{
 		return m_hp < 0;
 	}
+
+	void GameObject::add_power(int extra_pwr)
+	{
+		m_power += extra_pwr;
+		std::cout << "GameObject got extra power: +" << extra_pwr << "\nNew power is " << m_power << "\n";
+	}
 };
 
 IItem::~IItem()
 {
 
+}
+
+bool IItem::is_equipped()
+{
+	return m_equipped;
+}
+
+void IItem::set_equip()
+{
+	m_equipped = true;
 }
