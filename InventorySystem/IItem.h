@@ -50,9 +50,9 @@ namespace temp
  *
  *	RETURN TYPE      |      NAME        |       DEFAULT VALUE
  *	-----------------|------------------|--------------------
- *	std::string		 |		name		|		"Default Item"
- *	ItemID			 |		id			|		ItemID::DEFAULT_ITEM
- *	bool			 |		reusable    |		false 
+ *	std::string      |      name        |       "Default Item"
+ *	ItemID			 |      id          |       ItemID::DEFAULT_ITEM
+ *	bool             |      reusable    |       false 
  *	bool             |      equipable   |       false
  *	
  *	
