@@ -34,6 +34,9 @@ namespace temp
 #define BASE_ATTRIBUTE_ID(ID) inline virtual ItemID id() {return ID;}
 #define BASE_ATTIRBUTE_REUSABLE(reusable_) inline virtual bool reusable() {return reusable_;}
 
+#define ATTRIBUTE(name, value) virtual decltype(value) name() {return value;}
+#define STRING_ATTRIBUTE(name, value) virtual std::string name() {return value;}
+
 class IItem
 {
 public:
@@ -41,9 +44,9 @@ public:
 
 	virtual void use(temp::GameObject* target) = 0;
 
-	BASE_ATTRIBUTE_NAME("Default Item")
-	BASE_ATTRIBUTE_ID(ItemID::DEFAULT_ITEM)
-	BASE_ATTIRBUTE_REUSABLE(false)
+	STRING_ATTRIBUTE(name, "Default Item")
+	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
+	ATTRIBUTE(reusable, false)
 	
 private:
 

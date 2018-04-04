@@ -12,9 +12,9 @@ public:
 
 	virtual void use(temp::GameObject* target) override;
 
-	ATTRIBUTE_NAME("Damage Potion")
-	ATTRIBUTE_ID(ItemID::DAMAGE_POTION)
-	ATTRIBUTE_REUSABLE(false) //Damage potions are not reusable
+	STRING_ATTRIBUTE(name, "Damage Potion")
+	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
+	ATTRIBUTE(reusable, false)
 
 private:
 	int m_dmg;

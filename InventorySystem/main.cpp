@@ -13,6 +13,7 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 
 int main()
 {
+
 	IItem* base_ptr;
 
 	base_ptr = new DamagePotion(20);
