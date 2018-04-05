@@ -42,8 +42,10 @@ namespace temp
 
 */
 
-#define ATTRIBUTE(name, value) virtual decltype(value) name() {return value;}
-#define STRING_ATTRIBUTE(name, value) virtual std::string name() {return value;}
+
+/*Watch out with this one, always double check when adding a new attribute!!*/
+#define ATTRIBUTE(name, value) virtual decltype(value) name() const {return value;}
+#define STRING_ATTRIBUTE(name, value) virtual std::string name() const {return value;}
 
 /*Base class for Items. All Items must derive from this class. When calling use(), a target GameObject has
  *to be passed in. To give an item attributes such as a name, or an ID, you should add the ATTRIBUTE or STRING_ATTRIBUTE
@@ -67,6 +69,7 @@ public:
 	virtual ~IItem();
 
 	virtual void use(temp::GameObject* target) = 0;
+	virtual void unequip(temp::GameObject* target);
 
 	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
@@ -74,7 +77,7 @@ public:
 	ATTRIBUTE(equippable, false)
 
 	bool is_equipped();
-	void set_equip();
+	void set_equip(bool eq);
 
 private:
 	bool m_equipped { false };

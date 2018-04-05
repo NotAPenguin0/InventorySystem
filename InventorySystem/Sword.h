@@ -14,6 +14,7 @@ public:
 	ATTRIBUTE(id, ItemID::SWORD)
 
 	virtual void use(temp::GameObject* target) override;
+	virtual void unequip(temp::GameObject* target) override;
 
 private:
 	int m_power;

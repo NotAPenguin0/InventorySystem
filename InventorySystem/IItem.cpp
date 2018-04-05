@@ -39,12 +39,17 @@ IItem::~IItem()
 
 }
 
+void IItem::unequip(temp::GameObject* target)
+{
+
+}
+
 bool IItem::is_equipped()
 {
 	return m_equipped;
 }
 
-void IItem::set_equip()
+void IItem::set_equip(bool eq)
 {
-	m_equipped = true;
+	m_equipped = eq;
 }

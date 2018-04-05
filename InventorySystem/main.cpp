@@ -35,7 +35,19 @@ public:
 			m_inventory.useItem("Heal Potion I", this);
 			m_inventory.useItem("Sword I");
 
-			m_inventory.useItem("Sword I"); // won't do anything, Sword I is already equipped
+			m_inventory.useItem("Sword I"); // will unequip Sword I
+
+			chest.addItem<DamagePotion>("CDmgPot", 100);
+			chest.addItem<HealPotion>("CHealPot", 200);
+
+			m_inventory.merge(chest);
+
+			chest.addItem<Sword>("CSword", 50);
+
+			chest.transfer(m_inventory, "CSword");
+
+			chest.addItem<Sword>("CSword", 20);
+			chest.removeItem("CSword");
 		}
 		catch (std::runtime_error e)
 		{
@@ -45,12 +57,12 @@ public:
 
 private:
 	Inventory<200> m_inventory { this };
+
+	Inventory<5> chest { this };
 };
 
 int main()
 {
-
-	//#TODO: Unequip
 
 	Player p;
 

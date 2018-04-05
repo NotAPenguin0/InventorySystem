@@ -15,3 +15,8 @@ void Sword::use(temp::GameObject* target)
 {
 	target->add_power(m_power);
 }
+
+void Sword::unequip(temp::GameObject* target)
+{
+	target->add_power(-m_power);
+}
