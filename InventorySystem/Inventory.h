@@ -7,29 +7,116 @@
 #include <string>
 #include <unordered_map>
 #include <string_view>
+#include <type_traits>
 
-template<unsigned int MAX_SIZE, typename GameObjTy = temp::GameObject, typename ItemTy = IItem<GameObjTy>>
+template<unsigned int MAX_SIZE, typename GameObjTy = temp::GameObject, typename ItemTy = IItem>
 class Inventory
 {
+private:
+
+	class Traits //class to simulate namespace inside class
+	{
+	public:
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasUseMethodHelper : std::false_type 
+		{
+		};
+
+		template<typename _Ty>
+		struct HasUseMethodHelper<_Ty, std::void_t<decltype(std::declval<_Ty>().use(std::declval<GameObjTy*>()))>> : std::true_type
+		{
+		};
+
+		template<typename _Ty>
+		struct HasUseMethodT : HasUseMethodHelper<_Ty>::type
+		{};
+
+		template<typename _Ty> using HasUseMethod = typename HasUseMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasUseMethodV = HasUseMethod<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasEquippableMethodT
+		{
+			static constexpr bool value = 
+				std::is_same<decltype(std::declval<_Ty>().equippable()), bool>::value;
+		};
+		
+		template<typename _Ty>
+		static constexpr bool HasEquippableMethodV = HasEquippableMethodT<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasIsEquippedMethodT
+		{
+			static constexpr bool value = 
+				std::is_same<decltype(std::declval<_Ty>().is_equipped()), bool>::value;
+		};
+
+		template<typename _Ty> static constexpr bool HasIsEquippedMethodV = HasIsEquippedMethodT<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasSetEquipMethodT
+		{
+			static constexpr bool value = 
+				std::is_same<decltype(std::declval<_Ty>().set_equip(std::declval<bool>())), void>::value;
+		};
+
+		template<typename _Ty> static constexpr bool HasSetEquipMethodV = HasSetEquipMethodT<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasUnequipMethodT
+		{
+			static constexpr bool value = 
+				std::is_same<decltype(std::declval<_Ty>().unequip(std::declval<GameObjTy*>())), void>::value;
+		};
+
+		template<typename _Ty> static constexpr bool HasUnequipMethodV = HasUnequipMethodT<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasReusableMethodT
+		{
+			static constexpr bool value =
+				std::is_same<decltype(std::declval<_Ty>().reusable()), bool>::value;
+		};
+
+		template<typename _Ty> static constexpr bool HasReusableMethodV = HasReusableMethodT<_Ty>::value;
+
+		template<typename _Ty>
+		struct IsValidItemT
+		{
+			static constexpr bool value =
+				HasEquippableMethodV<_Ty>
+				&& HasUseMethodV<_Ty>
+				&& HasIsEquippedMethodV<_Ty>
+				&& HasSetEquipMethodV<_Ty>
+				&& HasEquippableMethodV<_Ty>
+				&& HasReusableMethodV<_Ty>;
+		};
+
+		template<typename _Ty> static constexpr bool IsValidItemV = IsValidItemT<_Ty>::value;
+	};
+
 public:
+	static_assert(Traits::IsValidItemV<ItemTy>, "Item type is invalid. It should provide methods listed in documentation");
+	
+
 	class Exception
 	{
 	private:
 		std::string msg;
 	public:
-		explicit inline Exception(std::string const& error)  msg {error} {}
+		explicit inline Exception(std::string const& error) : msg {error} {}
 		inline std::string_view what() { return msg; }
 	};
 
-	using game_object_type = GameObjectTy; 
+	using game_object_type = GameObjTy; 
 	using item_type = ItemTy; 
 	using item_pointer = std::unique_ptr<item_type>;
 
 	using game_object_pointer = game_object_type*;
 	using inventory_type = std::unordered_map<std::string, item_pointer>;
-	using iterator = inventory_type::iterator;
-	using const_iterator = inventory_type::const_iterator;
-	using size_type = inventory_type::size_type;
+	using iterator = typename inventory_type::iterator;
+	using const_iterator = typename inventory_type::const_iterator;
+	using size_type = typename inventory_type::size_type;
 
 	explicit Inventory(game_object_pointer owner);
 	Inventory(Inventory const& other) = delete;
@@ -45,6 +132,8 @@ public:
 	template<typename ItemT, typename... Args>
 	void addItem(std::string const& id, Args... args)
 	{
+		if constexpr (!std::is_base_of_v<item_type, ItemT>)
+			throw InvalidItemTypeException();
 
 		if (m_items.size() >= ITEM_LIST_SIZE)
 		{
@@ -79,7 +168,7 @@ public:
 	void merge(Inventory<N, GameObjTy, ItemTy>& other);
 
 	template<unsigned int N>
-	bool merge_fits(Inventory<N> const& other);
+	bool merge_fits(Inventory<N, GameObjTy, ItemTy> const& other);
 
 	/*Transfers item with name parameter into the inventory specified in destination, unless destination does not have enough
 	 *space left*/
@@ -103,7 +192,8 @@ private:
 	void useItem(iterator pos, game_object_pointer target = nullptr); 
 	void removeItem(iterator pos);
 	
-	Exception InventoryFullException() { return Exception {"Inventory is full"}; }
+	inline Exception InventoryFullException() { return Exception {"Inventory is full"}; }
+	inline Exception InvalidItemTypeException() { return Exception {"Item type must be derived from Inventory::ItemTy, which defaults to IItem"}; }
 };
 
 template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>

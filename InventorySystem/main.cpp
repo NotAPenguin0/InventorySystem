@@ -16,7 +16,7 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 }
 
 //Replace temp::GameObject class with the GameObject class used by your game
-
+/*
 class Player : public temp::GameObject
 {
 public:
@@ -99,13 +99,35 @@ private:
 
 	Inventory<5> chest { this };
 };
+*/
+
+struct InvalidItem
+{
+
+};
+
+struct InvalidEquippable
+{
+	void equippable()
+	{
+
+	}
+};
+
+
 
 int main()
 {
 
-	Player p;
+//	Player p;
 
 	IItem* base_ptr;
+
+	Inventory<200> {nullptr};
+
+	//Fails to compile due to traits
+//	Inventory<100, temp::GameObject, InvalidItem> {nullptr};
+//	Inventory<100, temp::GameObject, InvalidEquippable> {nullptr};
 
 	base_ptr = new DamagePotion(20);
 
