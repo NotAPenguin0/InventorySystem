@@ -9,6 +9,9 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 	{
 		out << "ID_DAMAGE_POTION";
 	}
+	else if (id == ItemID::DEFAULT_ITEM) out << "ID_DEFAULT_ITEM";
+	else if (id == ItemID::HEAL_POTION) out << "ID_HEAL_POTION";
+	else if (id == ItemID::SWORD) out << "ID_SWORD";
 	return out;
 }
 
@@ -21,33 +24,69 @@ public:
 	{
 		try
 		{
-			if (m_inventory.getOwner() == nullptr)
-			{
-				std::cout << "Owner was nullptr, setting to this...\n";
-				m_inventory.setOwner(this);
-			}
+			
 
 			m_inventory.addItem<DamagePotion>("Damage Potion I", 50);
 			m_inventory.addItem<HealPotion>("Heal Potion I", 70);
 			m_inventory.addItem<Sword>("Sword I", 20);
 
+			std::cout << "Inventory contents after adding base items:\n";
+			for (auto const& it : m_inventory.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			m_inventory.useItem("Damage Potion I", this);
 			m_inventory.useItem("Heal Potion I", this);
 			m_inventory.useItem("Sword I");
 
+			std::cout << "Inventory contents after using base items:\n";
+			for (auto const& it : m_inventory.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			m_inventory.useItem("Sword I"); // will unequip Sword I
+
+			std::cout << "Inventory contents after unequipping Sword I:\n";
+			for (auto const& it : m_inventory.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
 
 			chest.addItem<DamagePotion>("CDmgPot", 100);
 			chest.addItem<HealPotion>("CHealPot", 200);
 
+			std::cout << "Chest contents after adding base items:\n";
+			for (auto const& it : chest.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			m_inventory.merge(chest);
+
+			std::cout << "Chest contents after merging with inventory:\n";
+			for (auto const& it : chest.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+			std::cout << "Inventory contents after merging with chest:\n";
+			for (auto const& it : m_inventory.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
 
 			chest.addItem<Sword>("CSword", 50);
 
+			std::cout << "Chest contents after adding CSword:\n";
+			for (auto const& it : chest.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			chest.transfer(m_inventory, "CSword");
 
+			std::cout << "Inventory contents after transferring CSword from chest:\n";
+			for (auto const& it : m_inventory.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			chest.addItem<Sword>("CSword", 20);
+
+			std::cout << "Chest contents after adding a CSword:\n";
+			for (auto const& it : chest.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
+
 			chest.removeItem("CSword");
+
+			std::cout << "Chest contents after removing a CSword:\n";
+			for (auto const& it :chest.contents()) std::cout << it.second->id() << "\n";
+			std::cout << "\n";
 		}
 		catch (std::runtime_error e)
 		{

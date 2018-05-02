@@ -35,9 +35,7 @@ namespace temp
 };
 
 IItem::~IItem()
-{
-
-}
+= default;
 
 void IItem::unequip(temp::GameObject* target)
 {

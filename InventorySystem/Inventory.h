@@ -6,17 +6,32 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <string_view>
 
 template<unsigned int MAX_SIZE>
 class Inventory
 {
 public:
-	using inventory_type = std::unordered_map<std::string, std::unique_ptr<IItem>>;
+	class Exception
+	{
+	private:
+		std::string msg;
+	public:
+		explicit inline Exception(std::string const& error)  msg {error} {}
+		inline std::string_view what() { return msg; }
+	};
+
+	using game_object_type = temp::GameObject; //#IMPORTANT: Modify this to be the type of your GameObject
+	using item_type = IItem; //#IMPORTANT: Modify this to be the type of your Item interface class
+
+
+	using game_object_pointer = game_object_type*;
+	using inventory_type = std::unordered_map<std::string, std::unique_ptr<item_type>>;
 	using iterator = inventory_type::iterator;
 	using const_iterator = inventory_type::const_iterator;
 	using size_type = inventory_type::size_type;
 
-	explicit Inventory(temp::GameObject* owner);
+	explicit Inventory(game_object_pointer owner);
 	Inventory(Inventory const& other) = delete;
 	Inventory(Inventory&& other);
 
@@ -29,21 +44,20 @@ public:
 	{
 		if (m_items.size() >= ITEM_LIST_SIZE)
 		{
-			std::cerr << "Out of inventory space!\n";
-			std::cerr << "Modify code to allow a larger inventory size\n";
+			throw InventoryFullException();
 		}
 
 		m_items[id] = std::make_unique<ItemT>(std::forward<Args>(args)...);
 		
 	}
 
-	void useItem(iterator pos, temp::GameObject* target = nullptr);
-	void useItem(std::string const& name, temp::GameObject* target = nullptr);
+	void useItem(std::string const& name, game_object_pointer target = nullptr);
 
+	/*The iterators invalidate when a new Item is added to the inventory*/
 	iterator getItem(std::string const& name);
+	/*The iterators invalidate when a new Item is added to the inventory*/
 	const_iterator getItem(std::string const& name) const;
 
-	void removeItem(iterator pos);
 	void removeItem(std::string const& name);
 
 	iterator begin();
@@ -71,19 +85,25 @@ public:
 	bool empty() const;
 	bool full() const;
 
-	void setOwner(temp::GameObject* owner);
-	temp::GameObject* getOwner() const;
+	void setOwner(game_object_pointer owner);
+	game_object_pointer getOwner() const;
 
 	const size_type ITEM_LIST_SIZE = MAX_SIZE;
 
 private:
 	inventory_type m_items { MAX_SIZE };
-	temp::GameObject* m_owner { nullptr };
+	game_object_pointer m_owner { nullptr };
+
+	//these functions are private so you cannot accidentally pass an invalid iterator to one of these, causing undefined behavior
+
+	void useItem(iterator pos, game_object_pointer target = nullptr); 
+	void removeItem(iterator pos);
 	
+	Exception InventoryFullException() { return Exception {"Inventory is full"}; }
 };
 
 template<unsigned int MAX_SIZE>
-Inventory<MAX_SIZE>::Inventory(temp::GameObject* owner) : m_owner(owner)
+Inventory<MAX_SIZE>::Inventory(game_object_pointer owner) : m_owner(owner)
 {
 	
 }
@@ -141,14 +161,14 @@ typename Inventory<MAX_SIZE>::const_iterator Inventory<MAX_SIZE>::getItem(std::s
 }
 
 template<unsigned int MAX_SIZE>
-void Inventory<MAX_SIZE>::useItem(std::string const& name, temp::GameObject* target)
+void Inventory<MAX_SIZE>::useItem(std::string const& name, game_object_pointer target)
 {
 	useItem(getItem(name), target);
 }
 
 
 template<unsigned int MAX_SIZE>
-void Inventory<MAX_SIZE>::useItem(iterator pos, temp::GameObject* target)
+void Inventory<MAX_SIZE>::useItem(iterator pos, game_object_pointer target)
 {
 	//use the item
 	auto& it = *pos;
@@ -191,13 +211,13 @@ void Inventory<MAX_SIZE>::removeItem(std::string const& name)
 }
 
 template<unsigned int MAX_SIZE>
-void Inventory<MAX_SIZE>::setOwner(temp::GameObject* owner)
+void Inventory<MAX_SIZE>::setOwner(game_object_pointer owner)
 {
 	m_owner = owner;
 }
 
 template<unsigned int MAX_SIZE>
-temp::GameObject* Inventory<MAX_SIZE>::getOwner() const
+typename Inventory<MAX_SIZE>::game_object_pointer Inventory<MAX_SIZE>::getOwner() const
 {
 	return m_owner;
 }
@@ -220,12 +240,10 @@ void Inventory<MAX_SIZE>::merge(Inventory<N>& other)
 {
 
 	if (!merge_fits(other))
-		return;
+		throw InventoryFullException();
 
 	for (auto& it = other.begin(); it != other.end(); std::advance(it, 1))
 	{
-		if (!merge_fits(other))
-			break;
 
 		this->m_items[it->first] = std::move(it->second);
 	}

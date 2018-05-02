@@ -13,7 +13,7 @@ public:
 	virtual void use(temp::GameObject* target) override;
 
 	STRING_ATTRIBUTE(name, "Damage Potion")
-	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
+	ATTRIBUTE(id, ItemID::DAMAGE_POTION)
 	ATTRIBUTE(reusable, false)
 
 private:
