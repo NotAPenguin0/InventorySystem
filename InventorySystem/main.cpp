@@ -101,6 +101,19 @@ private:
 };
 */
 
+struct InvalidItem
+{
+
+};
+
+struct InvalidEquippable
+{
+	void equippable()
+	{
+
+	}
+};
+
 
 
 int main()
@@ -111,6 +124,10 @@ int main()
 	IItem* base_ptr;
 
 	Inventory<200> {nullptr};
+
+	//Fails to compile due to traits
+//	Inventory<100, temp::GameObject, InvalidItem> {nullptr};
+//	Inventory<100, temp::GameObject, InvalidEquippable> {nullptr};
 
 	base_ptr = new DamagePotion(20);
 
