@@ -2,7 +2,7 @@
 
 #include "IItem.h"
 
-class HealPotion : public IItem<>
+class HealPotion : public IItem
 {
 public:
 	HealPotion(int hp);

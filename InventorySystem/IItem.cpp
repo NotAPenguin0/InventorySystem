@@ -34,3 +34,26 @@ namespace temp
 	}
 };
 
+IItem::~IItem()
+= default;
+
+void IItem::use(temp::GameObject* target)
+{
+
+}
+
+void IItem::unequip(GameObjTy* target)
+{
+
+}
+
+
+bool IItem::is_equipped()
+{
+	return m_equipped;
+}
+
+void IItem::set_equip(bool eq)
+{
+	m_equipped = eq;
+}

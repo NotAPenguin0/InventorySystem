@@ -4,7 +4,7 @@
 
 
 //For demonstration purposes of the Item and Inventory System
-class DamagePotion : public IItem<>
+class DamagePotion : public IItem
 {
 public:
 	DamagePotion(int damage);

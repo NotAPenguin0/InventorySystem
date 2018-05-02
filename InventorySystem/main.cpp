@@ -16,7 +16,7 @@ std::ostream& operator<<(std::ostream& out, ItemID const& id)
 }
 
 //Replace temp::GameObject class with the GameObject class used by your game
-
+/*
 class Player : public temp::GameObject
 {
 public:
@@ -99,13 +99,18 @@ private:
 
 	Inventory<5> chest { this };
 };
+*/
+
+
 
 int main()
 {
 
-	Player p;
+//	Player p;
 
-	IItem<>* base_ptr;
+	IItem* base_ptr;
+
+	Inventory<200> {nullptr};
 
 	base_ptr = new DamagePotion(20);
 

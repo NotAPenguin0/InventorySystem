@@ -9,10 +9,50 @@
 #include <string_view>
 #include <type_traits>
 
-template<unsigned int MAX_SIZE, typename GameObjTy = temp::GameObject, typename ItemTy = IItem<GameObjTy>>
+template<unsigned int MAX_SIZE, typename GameObjTy = temp::GameObject, typename ItemTy = IItem>
 class Inventory
 {
+private:
+
+	class Traits //class to simulate namespace inside class
+	{
+	public:
+		/*List of traits:
+		 *-equippable()
+		 *-is_equipped()
+		 *-set_equip(bool)
+		 *-use(GameObject) DONE
+		 *-unequip(GameObject)
+		 *--reusable()*/
+
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasUseMethodHelper : std::false_type 
+		{
+		};
+
+		template<typename _Ty>
+		struct HasUseMethodHelper<_Ty, std::void_t<decltype(std::declval<_Ty>().use(std::declval<GameObjTy>()))>> : std::true_type
+		{
+		};
+
+		template<typename _Ty>
+		struct HasUseMethodT : HasUseMethodHelper<_Ty>::type
+		{};
+
+		template<typename _Ty> using HasUseMethod = typename HasUseMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasUseMethodV = HasUseMethod<_Ty>::value;
+
+		template<typename _Ty>
+		struct HasEquippableMethodHelper 
+		{
+			static constexpr bool value = std::is_same<std::invoke_result<_Ty::equippable>::type, bool>::value;
+		};
+		
+	};
+
 public:
+	static_assert(Traits::HasUseMethodV<ItemTy>, "Item type should have use method");
+
 	class Exception
 	{
 	private:
