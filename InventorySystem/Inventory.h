@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include <string_view>
+#include <type_traits>
 
 template<unsigned int MAX_SIZE, typename GameObjTy = temp::GameObject, typename ItemTy = IItem<GameObjTy>>
 class Inventory
@@ -17,19 +18,19 @@ public:
 	private:
 		std::string msg;
 	public:
-		explicit inline Exception(std::string const& error)  msg {error} {}
+		explicit inline Exception(std::string const& error) : msg {error} {}
 		inline std::string_view what() { return msg; }
 	};
 
-	using game_object_type = GameObjectTy; 
+	using game_object_type = GameObjTy; 
 	using item_type = ItemTy; 
 	using item_pointer = std::unique_ptr<item_type>;
 
 	using game_object_pointer = game_object_type*;
 	using inventory_type = std::unordered_map<std::string, item_pointer>;
-	using iterator = inventory_type::iterator;
-	using const_iterator = inventory_type::const_iterator;
-	using size_type = inventory_type::size_type;
+	using iterator = typename inventory_type::iterator;
+	using const_iterator = typename inventory_type::const_iterator;
+	using size_type = typename inventory_type::size_type;
 
 	explicit Inventory(game_object_pointer owner);
 	Inventory(Inventory const& other) = delete;
@@ -45,6 +46,8 @@ public:
 	template<typename ItemT, typename... Args>
 	void addItem(std::string const& id, Args... args)
 	{
+		if constexpr (!std::is_base_of_v<item_type, ItemT>)
+			throw InvalidItemTypeException();
 
 		if (m_items.size() >= ITEM_LIST_SIZE)
 		{
@@ -79,7 +82,7 @@ public:
 	void merge(Inventory<N, GameObjTy, ItemTy>& other);
 
 	template<unsigned int N>
-	bool merge_fits(Inventory<N> const& other);
+	bool merge_fits(Inventory<N, GameObjTy, ItemTy> const& other);
 
 	/*Transfers item with name parameter into the inventory specified in destination, unless destination does not have enough
 	 *space left*/
@@ -103,7 +106,8 @@ private:
 	void useItem(iterator pos, game_object_pointer target = nullptr); 
 	void removeItem(iterator pos);
 	
-	Exception InventoryFullException() { return Exception {"Inventory is full"}; }
+	inline Exception InventoryFullException() { return Exception {"Inventory is full"}; }
+	inline Exception InvalidItemTypeException() { return Exception {"Item type must be derived from Inventory::ItemTy, which defaults to IItem"}; }
 };
 
 template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>

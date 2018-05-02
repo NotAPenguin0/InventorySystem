@@ -124,7 +124,6 @@
     <ClCompile Include="HealPotion.cpp" />
     <ClCompile Include="IItem.cpp" />
     <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="linker_error_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sword.cpp" />
   </ItemGroup>

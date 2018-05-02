@@ -105,7 +105,7 @@ int main()
 
 	Player p;
 
-	IItem* base_ptr;
+	IItem<>* base_ptr;
 
 	base_ptr = new DamagePotion(20);
 

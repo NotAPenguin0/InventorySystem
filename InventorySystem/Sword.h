@@ -3,7 +3,7 @@
 #include "IItem.h"
 
 
-class Sword : public IItem
+class Sword : public IItem<>
 {
 public:
 	Sword(int pwr);
