@@ -63,13 +63,14 @@ namespace temp
  *	
  *	
  *	If you don't override an attributes value, it will get the default value*/
+template<typename GameObjTy = temp::GameObject>
 class IItem
 {
 public:
 	virtual ~IItem();
 
-	virtual void use(temp::GameObject* target) = 0;
-	virtual void unequip(temp::GameObject* target);
+	virtual void use(GameObjTy* target) = 0;
+	virtual void unequip(GameObjTy* target);
 
 	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
@@ -82,6 +83,28 @@ public:
 private:
 	bool m_equipped { false };
 };
+
+template<typename GameObjTy>
+IItem<GameObjTy>::~IItem()
+= default;
+
+template<typename GameObjTy>
+void IItem<GameObjTy>::unequip(GameObjTy* target)
+{
+
+}
+
+template<typename GameObjTy>
+bool IItem<GameObjTy>::is_equipped()
+{
+	return m_equipped;
+}
+
+template<typename GameObjTy>
+void IItem<GameObjTy>::set_equip(bool eq)
+{
+	m_equipped = eq;
+}
 
 /*
 #undef BASE_ATTRIBUTE_NAME

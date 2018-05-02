@@ -34,20 +34,3 @@ namespace temp
 	}
 };
 
-IItem::~IItem()
-= default;
-
-void IItem::unequip(temp::GameObject* target)
-{
-
-}
-
-bool IItem::is_equipped()
-{
-	return m_equipped;
-}
-
-void IItem::set_equip(bool eq)
-{
-	m_equipped = eq;
-}
