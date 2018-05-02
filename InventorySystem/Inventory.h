@@ -24,7 +24,6 @@ public:
 	using game_object_type = temp::GameObject; //#IMPORTANT: Modify this to be the type of your GameObject
 	using item_type = IItem; //#IMPORTANT: Modify this to be the type of your Item interface class
 
-
 	using game_object_pointer = game_object_type*;
 	using inventory_type = std::unordered_map<std::string, std::unique_ptr<item_type>>;
 	using iterator = inventory_type::iterator;
@@ -34,6 +33,9 @@ public:
 	explicit Inventory(game_object_pointer owner);
 	Inventory(Inventory const& other) = delete;
 	Inventory(Inventory&& other);
+
+	Inventory& operator=(Inventory const& other) = delete;
+	Inventory& operator=(Inventory&& other);
 
 	inventory_type const& contents() const;
 	inventory_type& contents();
@@ -111,6 +113,16 @@ Inventory<MAX_SIZE>::Inventory(game_object_pointer owner) : m_owner(owner)
 template<unsigned int MAX_SIZE>
 Inventory<MAX_SIZE>::Inventory(Inventory&& other) : m_owner(std::move(other.m_owner)), m_items(std::move(other.m_items))
 {
+	other.m_owner = nullptr;
+	other.m_items = inventory_type {};
+}
+
+template<unsigned int MAX_SIZE>
+Inventory<Max_SIZE>& Inventory<MAX_SIZE>::operator=(Inventory<MAX_SIZE>&& other)
+{
+	m_owner = other.m_owner;
+	m_items = std::move(other.m_items);
+
 	other.m_owner = nullptr;
 	other.m_items = inventory_type {};
 }
