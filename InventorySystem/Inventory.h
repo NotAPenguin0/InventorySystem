@@ -39,14 +39,14 @@ private:
 		
 		/*HasEquippabmeMethod type trait*/
 		
-		template<typename _Ty, std::void_t<>>
+		template<typename _Ty, typename = std::void_t<>>
 		struct HasEquippableMethodHelper : std::false_type
 		{
 		};
 		
 		template<typename _Ty>
 		struct HasEquippableMethodHelper<_Ty, 
-			std::void_t<decltype(std::is_same_v<std::declval<_Ty>().equippable(), bool >)>> : std::true_type
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().equippable()), bool >)>> : std::true_type
 		{
 		};
 		
@@ -60,14 +60,14 @@ private:
 		
 		/*HasIsEquipped type trait*/
 		
-		template<typename _Ty, std::void_t<>>
+		template<typename _Ty, typename = std::void_t<>>
 		struct HasIsEquippedMethodHelper : std::false_type
 		{
 		};
 		
 		template<typename _Ty>
 		struct HasIsEquippedMethodHelper<_Ty, 
-			std::void_t<decltype(std::is_same_v<std::declval<_Ty>().is_equipped(), bool >)>> : std::true_type
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().is_equipped()), bool >)>> : std::true_type
 		{
 		};
 		
@@ -81,14 +81,14 @@ private:
 		
 		/*HasSetEquip type trait*/
 		
-		template<typename _Ty, std::void_t<>>
+		template<typename _Ty, typename = std::void_t<>>
 		struct HasSetEquipMethodHelper : std::false_type
 		{
 		};
 		
 		template<typename _Ty>
 		struct HasSetEquipMethodHelper<_Ty, 
-			std::void_t<decltype(std::is_same_v<std::declval<_Ty>().set_equip(std::declval<bool>()), void >)>> 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().set_equip(std::declval<bool>())), void >)>> 
 				: std::true_type
 		{
 		};
@@ -103,14 +103,14 @@ private:
 		
 		/*HasUnequipMethod type trait*/
 		
-		template<typename _Ty, std::void_t<>>
+		template<typename _Ty, typename = std::void_t<>>
 		struct HasUnequipMethodHelper : std::false_type
 		{
 		};
 		
 		template<typename _Ty>
 		struct HasUnequipMethodHelper<_Ty, 
-			std::void_t<decltype(std::is_same_v<std::declval<_Ty>().unequip(std::declval<GameObjTy*>()), void >)>> 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().unequip(std::declval<GameObjTy*>())), void >)>> 
 				: std::true_type
 		{
 		};
@@ -125,14 +125,14 @@ private:
 		
 		/*HasReusableMethod type trait*/
 		
-		template<typename _Ty, std::void_t<>>
+		template<typename _Ty, typename = std::void_t<>>
 		struct HasReusableMethodHelper : std::false_type
 		{
 		};
 		
 		template<typename _Ty>
 		struct HasReusableMethodHelper<_Ty, 
-			std::void_t<decltype(std::is_same_v<std::declval<_Ty>().reusable(), bool >)>> 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().reusable()), bool >)>> 
 				: std::true_type
 		{
 		};
