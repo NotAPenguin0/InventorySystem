@@ -17,6 +17,8 @@ private:
 	class Traits //class to simulate namespace inside class
 	{
 	public:
+		/*HasUseMethod type trait*/
+		
 		template<typename _Ty, typename = std::void_t<>>
 		struct HasUseMethodHelper : std::false_type 
 		{
@@ -29,56 +31,120 @@ private:
 
 		template<typename _Ty>
 		struct HasUseMethodT : HasUseMethodHelper<_Ty>::type
-		{};
+		{
+		};
 
 		template<typename _Ty> using HasUseMethod = typename HasUseMethodT<_Ty>::type;
 		template<typename _Ty> static constexpr bool HasUseMethodV = HasUseMethod<_Ty>::value;
-
-		template<typename _Ty>
-		struct HasEquippableMethodT
+		
+		/*HasEquippabmeMethod type trait*/
+		
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasEquippableMethodHelper : std::false_type
 		{
-			static constexpr bool value = 
-				std::is_same<decltype(std::declval<_Ty>().equippable()), bool>::value;
 		};
 		
 		template<typename _Ty>
-		static constexpr bool HasEquippableMethodV = HasEquippableMethodT<_Ty>::value;
-
-		template<typename _Ty>
-		struct HasIsEquippedMethodT
+		struct HasEquippableMethodHelper<_Ty, 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().equippable()), bool >)>> : std::true_type
 		{
-			static constexpr bool value = 
-				std::is_same<decltype(std::declval<_Ty>().is_equipped()), bool>::value;
 		};
-
-		template<typename _Ty> static constexpr bool HasIsEquippedMethodV = HasIsEquippedMethodT<_Ty>::value;
-
+		
 		template<typename _Ty>
-		struct HasSetEquipMethodT
+		struct HasEquippableMethodT : HasEquippableMethodHelper<_Ty>::type
 		{
-			static constexpr bool value = 
-				std::is_same<decltype(std::declval<_Ty>().set_equip(std::declval<bool>())), void>::value;
 		};
-
-		template<typename _Ty> static constexpr bool HasSetEquipMethodV = HasSetEquipMethodT<_Ty>::value;
-
+		
+		template<typename _Ty> using HasEquippableMethod = typename HasEquippableMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasEquippableMethodV = HasEquippableMethod<_Ty>::value;
+		
+		/*HasIsEquipped type trait*/
+		
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasIsEquippedMethodHelper : std::false_type
+		{
+		};
+		
 		template<typename _Ty>
-		struct HasUnequipMethodT
+		struct HasIsEquippedMethodHelper<_Ty, 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().is_equipped()), bool >)>> : std::true_type
 		{
-			static constexpr bool value = 
-				std::is_same<decltype(std::declval<_Ty>().unequip(std::declval<GameObjTy*>())), void>::value;
 		};
-
-		template<typename _Ty> static constexpr bool HasUnequipMethodV = HasUnequipMethodT<_Ty>::value;
-
+		
 		template<typename _Ty>
-		struct HasReusableMethodT
+		struct HasIsEquippedMethodT : HasIsEquippedMethodHelper<_Ty>::type
 		{
-			static constexpr bool value =
-				std::is_same<decltype(std::declval<_Ty>().reusable()), bool>::value;
 		};
-
-		template<typename _Ty> static constexpr bool HasReusableMethodV = HasReusableMethodT<_Ty>::value;
+		
+		template<typename _Ty> using HasIsEquippedMethod = typename HasIsEquippedMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasIsEquippedMethodV = HasIsEquippedMethod<_Ty>::value;
+		
+		/*HasSetEquip type trait*/
+		
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasSetEquipMethodHelper : std::false_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasSetEquipMethodHelper<_Ty, 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().set_equip(std::declval<bool>())), void >)>> 
+				: std::true_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasSetEquipMethodT : HasSetEquipMethodHelper<_Ty>::type
+		{
+		};
+		
+		template<typename _Ty> using HasSetEquipMethod = typename HasSetEquipMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasSetEquipMethodV = HasSetEquipMethod<_Ty>::value;
+		
+		/*HasUnequipMethod type trait*/
+		
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasUnequipMethodHelper : std::false_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasUnequipMethodHelper<_Ty, 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().unequip(std::declval<GameObjTy*>())), void >)>> 
+				: std::true_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasUnequipMethodT : HasUnequipMethodHelper<_Ty>::type
+		{
+		};
+		
+		template<typename _Ty> using HasUnequipMethod = typename HasUnequipMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasUnequipMethodV = HasUnequipMethod<_Ty>::value;
+		
+		/*HasReusableMethod type trait*/
+		
+		template<typename _Ty, typename = std::void_t<>>
+		struct HasReusableMethodHelper : std::false_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasReusableMethodHelper<_Ty, 
+			std::void_t<decltype(std::is_same_v<decltype(std::declval<_Ty>().reusable()), bool >)>> 
+				: std::true_type
+		{
+		};
+		
+		template<typename _Ty>
+		struct HasReusableMethodT : HasReusableMethodHelper<_Ty>::type
+		{
+		};
+		
+		template<typename _Ty> using HasReusableMethod = typename HasReusableMethodT<_Ty>::type;
+		template<typename _Ty> static constexpr bool HasReusableMethodV = HasReusableMethod<_Ty>::value;
+		
 
 		template<typename _Ty>
 		struct IsValidItemT
@@ -91,7 +157,8 @@ private:
 				&& HasEquippableMethodV<_Ty>
 				&& HasReusableMethodV<_Ty>;
 		};
-
+		
+		template<typename _Ty> using IsValidItem = typename IsValidItemT<_Ty>::type;
 		template<typename _Ty> static constexpr bool IsValidItemV = IsValidItemT<_Ty>::value;
 	};
 
