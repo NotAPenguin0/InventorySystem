@@ -29,7 +29,7 @@ private:
 		};
 
 		template<typename _Ty>
-		struct HasUseMethodHelper<_Ty, std::void_t<decltype(std::declval<_Ty>().use(std::declval<GameObjTy*>()))>> : std::true_type
+		struct HasUseMethodHelper<_Ty, std::void_t<decltype(std::declval<_Ty>().use(std::declval<ItemDispatcher<GameObjTy>&>()))>> : std::true_type
 		{
 		};
 
@@ -174,6 +174,7 @@ private:
 		{
 			static constexpr bool value =
 				HasEquippableMethodV<_Ty>
+				&& HasUseMethodV<_Ty>
 				&& HasIsEquippedMethodV<_Ty>
 				&& HasSetEquipMethodV<_Ty>
 				&& HasEquippableMethodV<_Ty>
