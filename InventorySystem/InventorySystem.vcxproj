@@ -117,15 +117,21 @@
     <ClInclude Include="DamagePotion.h" />
     <ClInclude Include="HealPotion.h" />
     <ClInclude Include="IItem.h" />
+    <ClInclude Include="IItemDispatcher.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="ItemDispatcher.h" />
     <ClInclude Include="ItemID.h" />
+    <ClInclude Include="Items.h" />
+    <ClInclude Include="ItemUtil.h" />
     <ClInclude Include="Sword.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DamagePotion.cpp" />
     <ClCompile Include="HealPotion.cpp" />
     <ClCompile Include="IItem.cpp" />
+    <ClCompile Include="IItemDispatcher.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="ItemDispatcher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sword.cpp" />
   </ItemGroup>

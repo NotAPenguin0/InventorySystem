@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IItem.h"
+#include "ItemDispatcher.h"
 #include <vector>
 #include <memory>
 #include <functional>
@@ -173,7 +174,6 @@ private:
 		{
 			static constexpr bool value =
 				HasEquippableMethodV<_Ty>
-				&& HasUseMethodV<_Ty>
 				&& HasIsEquippedMethodV<_Ty>
 				&& HasSetEquipMethodV<_Ty>
 				&& HasEquippableMethodV<_Ty>
@@ -416,27 +416,30 @@ void Inventory<MAX_SIZE, GameObjTy, ItemTy>::useItem(iterator pos, game_object_p
 
 	//use the item
 
+	ItemDispatcher<GameObjTy> dispatcher { target };
+
 	auto& it = *pos;
 	auto& itemPair = it.second;
 	auto& item = itemPair.first;
 
 	if (item->equippable())
 	{
+		dispatcher.setTarget(m_owner);
 		if (!item->is_equipped())
 		{
 			item->set_equip(true);
-			item->use(m_owner);
+			item->use(dispatcher);
 		}
 		else
 		{
 			item->set_equip(false);
-			item->unequip(m_owner);
+			item->use(dispatcher);
 		}
 		return;
 	}
 	else
 	{
-		item->use(target);
+		item->use(dispatcher); //dispatcher.target == target, see construction above
 	}
 
 	if (!item->reusable())
@@ -551,6 +554,5 @@ template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
 unsigned int Inventory<MAX_SIZE, GameObjTy, ItemTy>::getItemCount(std::string_view id) const
 {
 	if (m_items.find(id.data()) == m_items.end()) throw InvalidItemException();
-	
 	return m_items.at(id.data()).second;
 }

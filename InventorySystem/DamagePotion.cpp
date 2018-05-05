@@ -1,4 +1,5 @@
 #include "DamagePotion.h"
+#include "ItemDispatcher.h"
 
 DamagePotion::DamagePotion(int damage) : m_dmg(damage)
 {
@@ -9,14 +10,7 @@ DamagePotion::~DamagePotion()
 {
 }
 
-void DamagePotion::use(temp::GameObject* target)
+void DamagePotion::use(ItemDispatcher<GameObjTy>& dispatcher)
 {
-	if (target == nullptr)
-	{
-		std::cout << "DamagePotion::use(GameObject* target): target was nullptr\n";
-		return;
-	}
-
-	target->damage(m_dmg);
+	dispatcher.dispatch(*this);
 }
-

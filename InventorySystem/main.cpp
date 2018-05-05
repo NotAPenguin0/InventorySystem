@@ -117,7 +117,7 @@ struct InvalidEquippable
 class TestClass : public temp::GameObject
 {
 public:
-	TestClass()
+	TestClass() : temp::GameObject(50)
 	{
 		try
 		{
@@ -131,6 +131,8 @@ public:
 
 			inv.useItem("P", this);
 			inv.useItem("P", this);
+
+			std::cout << getHealth() << '\n';
 
 			std::cout << inv.getItemCount("P") << '\n';
 		}

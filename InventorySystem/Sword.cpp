@@ -1,5 +1,5 @@
 #include "Sword.h"
-
+#include "ItemDispatcher.h"
 
 
 Sword::Sword(int pwr) : m_power(pwr)
@@ -11,12 +11,7 @@ Sword::~Sword()
 {
 }
 
-void Sword::use(temp::GameObject* target)
+void Sword::use(ItemDispatcher<GameObjTy>& dispatcher)
 {
-	target->add_power(m_power);
-}
-
-void Sword::unequip(temp::GameObject* target)
-{
-	target->add_power(-m_power);
+	dispatcher.dispatch(*this);
 }

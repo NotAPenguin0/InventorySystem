@@ -23,6 +23,7 @@ namespace temp
 
 		virtual void add_power(int extra_pwr);
 
+		inline int getHealth() { return m_hp; }
 
 		//etc...
 	private:
@@ -65,16 +66,18 @@ namespace temp
  *	
  *	If you don't override an attributes value, it will get the default value*/
 
+template<typename GameObjTy>
+class ItemDispatcher;
+
 class IItem
 {
 public:
 	using GameObjTy = temp::GameObject;
 
+	friend class ItemDispatcher<GameObjTy>;
+
 	IItem();
 	virtual ~IItem();
-
-	virtual void use(temp::GameObject* target);
-	virtual void unequip(GameObjTy* target);
 
 	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
@@ -82,6 +85,7 @@ public:
 	ATTRIBUTE(equippable, false)
 	ATTRIBUTE(stackable, true)
 
+	virtual void use(ItemDispatcher<GameObjTy>& dispatcher) = 0;
 
 	bool is_equipped();
 	void set_equip(bool eq);
