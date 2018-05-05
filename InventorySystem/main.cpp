@@ -142,6 +142,5 @@ int main()
 	base_ptr->use(&target);
 
 
-
 	std::cin.get();
 }

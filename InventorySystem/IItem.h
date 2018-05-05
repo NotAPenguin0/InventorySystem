@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <string_view>
 
 namespace temp
 {
@@ -45,7 +46,7 @@ namespace temp
 
 /*Watch out with this one, always double check when adding a new attribute!!*/
 #define ATTRIBUTE(name, value) virtual decltype(value) name() const {return value;}
-#define STRING_ATTRIBUTE(name, value) virtual std::string name() const {return value;}
+#define STRING_ATTRIBUTE(name, value) virtual std::string_view name() const {return value;}
 
 /*Base class for Items. All Items must derive from this class. When calling use(), a target GameObject has
  *to be passed in. To give an item attributes such as a name, or an ID, you should add the ATTRIBUTE or STRING_ATTRIBUTE
