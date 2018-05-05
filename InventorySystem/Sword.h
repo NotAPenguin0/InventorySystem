@@ -6,7 +6,7 @@
 class Sword : public IItem
 {
 public:
-	Sword(int pwr);
+	Sword(int pwr = 0);
 	virtual ~Sword();
 
 	STRING_ATTRIBUTE(name, "Sword")

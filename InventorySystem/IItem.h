@@ -60,7 +60,7 @@ namespace temp
  *	ItemID           |      id          |       ItemID::DEFAULT_ITEM
  *	bool             |      reusable    |       false 
  *	bool             |      equippable  |       false
- *	
+ *	bool             |      stackable   |       true
  *	
  *	
  *	If you don't override an attributes value, it will get the default value*/
@@ -70,6 +70,7 @@ class IItem
 public:
 	using GameObjTy = temp::GameObject;
 
+	IItem();
 	virtual ~IItem();
 
 	virtual void use(temp::GameObject* target);
@@ -79,6 +80,8 @@ public:
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
 	ATTRIBUTE(reusable, false)
 	ATTRIBUTE(equippable, false)
+	ATTRIBUTE(stackable, true)
+
 
 	bool is_equipped();
 	void set_equip(bool eq);

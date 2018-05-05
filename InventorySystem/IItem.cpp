@@ -1,5 +1,12 @@
 #include "IItem.h"
 
+#define ASSERT(condition, message) \
+if (condition) {} \
+else \
+{\
+	std::cerr << "Assertion failed: " << #message << "\n"; \
+}
+
 namespace temp
 {
 	GameObject::GameObject() : m_hp(-1)
@@ -33,6 +40,11 @@ namespace temp
 		std::cout << "GameObject got extra power: +" << extra_pwr << "\nNew power is " << m_power << "\n";
 	}
 };
+
+IItem::IItem()
+{
+	ASSERT(!(equippable() && stackable()), "An item cannot be stackable and equippable at the same time");
+}
 
 IItem::~IItem()
 = default;
