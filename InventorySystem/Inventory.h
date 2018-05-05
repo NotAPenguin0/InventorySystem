@@ -221,44 +221,11 @@ public:
 
 	/*Adds a new item, stacked on top of an item with the same ID. The id parameter will be used to access the item*/
 	template<typename ItemT>
-	void addItem(std::string_view id)
-	{
-		if constexpr (!std::is_base_of_v<item_type, ItemT>)
-			throw InvalidItemTypeException();
-
-		if (size() >= MAX_SIZE)
-		{
-			throw InventoryFullException();
-		}
-
-		if (m_items.find(id.data()) != m_items.end()) //if we already own this item, increment the count
-		{
-			if (!m_items[id.data()].first->stackable())
-				throw InvalidStackException();
-			m_items[id.data()].second += 1; //increment count
-			m_size += 1;
-		}
-		else
-		{
-			throw InvalidIDException();
-		}
-	}
+	void addItem(std::string_view id);
 
 	/*constructs a new item and adds it to the inventory. The id parameter will be used to access the item*/
 	template<typename ItemT, typename... Args>
-	void emplaceItem(std::string_view id, Args... args)
-	{
-		if constexpr (!std::is_base_of_v<item_type, ItemT>)
-			throw InvalidItemTypeException();
-
-		if (size() >= MAX_SIZE)
-		{
-			throw InventoryFullException();
-		}
-
-		m_items[id.data()] = std::make_pair(std::make_unique<ItemT>(std::forward<Args>(args)...), 1);
-		m_size += 1;
-	}
+	void emplaceItem(std::string_view id, Args... args);
 
 	void useItem(std::string_view name, game_object_pointer target = nullptr);
 
@@ -316,8 +283,6 @@ private:
 	inline Exception InvalidItemException() const { return Exception { "Invalid item name" }; }
 	inline Exception InvalidStackException() const { return Exception {"Tried to stack a non-stackable item"}; }
 	inline Exception InvalidIDException() const { return Exception {"ID not found in inventory"}; }
-
-	
 };
 
 template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
@@ -384,13 +349,6 @@ typename Inventory<MAX_SIZE, GameObjTy, ItemTy>::const_iterator Inventory<MAX_SI
 	return m_items.cend(); 
 }
 
-/*
-template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
-typename Inventory< MAX_SIZE, GameObjTy, ItemTy>::inventory_type::reverse_iterator Inventory< MAX_SIZE, GameObjTy, ItemTy>::rbegin() { return m_items.rbegin(); }
-template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
-typename Inventory< MAX_SIZE, GameObjTy, ItemTy>::inventory_type::reverse_iterator Inventory< MAX_SIZE, GameObjTy, ItemTy>::rend() { return m_items.rend(); }
-*/
-
 template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
 typename Inventory<MAX_SIZE, GameObjTy, ItemTy>::iterator Inventory<MAX_SIZE, GameObjTy, ItemTy>::getItem(std::string_view name)
 {
@@ -409,6 +367,46 @@ void Inventory<MAX_SIZE, GameObjTy, ItemTy>::useItem(std::string_view name, game
 	useItem(getItem(name), target);
 }
 
+template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
+template<typename ItemT>
+void Inventory<MAX_SIZE, GameObjTy, ItemTy>::addItem(std::string_view id)
+{
+	if constexpr (!std::is_base_of_v<item_type, ItemT>)
+		throw InvalidItemTypeException();
+
+	if (size() >= MAX_SIZE)
+	{
+		throw InventoryFullException();
+	}
+
+	if (m_items.find(id.data()) != m_items.end()) //if we already own this item, increment the count
+	{
+		if (!m_items[id.data()].first->stackable())
+			throw InvalidStackException();
+		m_items[id.data()].second += 1; //increment count
+		m_size += 1;
+	}
+	else
+	{
+		throw InvalidIDException();
+	}
+}
+
+template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
+template<typename ItemT, typename... Args>
+void Inventory<MAX_SIZE, GameObjTy, ItemTy>::emplaceItem(std::string_view id, Args... args)
+{
+	if constexpr (!std::is_base_of_v<item_type, ItemT>)
+		throw InvalidItemTypeException();
+
+	if (size() >= MAX_SIZE)
+	{
+		throw InventoryFullException();
+	}
+
+	m_items[id.data()] = std::make_pair(std::make_unique<ItemT>(std::forward<Args>(args)...), 1);
+	m_size += 1;
+}
 
 template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
 void Inventory<MAX_SIZE, GameObjTy, ItemTy>::useItem(iterator pos, game_object_pointer target)
@@ -496,7 +494,6 @@ template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
 template<unsigned int N>
 void Inventory<MAX_SIZE, GameObjTy, ItemTy>::merge(Inventory<N, GameObjTy, ItemTy>& other)
 {
-
 	if (!merge_fits(other))
 		throw InventoryFullException();
 
@@ -526,7 +523,6 @@ template<unsigned int MAX_SIZE, typename GameObjTy, typename ItemTy>
 template<unsigned int N>
 void Inventory<MAX_SIZE, GameObjTy, ItemTy>::transfer(Inventory<N, GameObjTy, ItemTy>& destination, std::string_view name)
 {	
-
 	if (destination.full())
 		return;
 
