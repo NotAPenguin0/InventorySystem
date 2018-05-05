@@ -119,6 +119,8 @@ struct InvalidEquippable
 int main()
 {
 
+
+
 //	Player p;
 
 	IItem* base_ptr;

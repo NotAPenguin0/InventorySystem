@@ -17,6 +17,7 @@ private:
 	class Traits //class to simulate namespace inside class
 	{
 	public:
+
 		/*HasUseMethod type trait*/
 		
 		template<typename _Ty, typename = std::void_t<>>
@@ -171,7 +172,7 @@ public:
 	private:
 		std::string msg;
 	public:
-		explicit inline Exception(std::string const& error) : msg {error} {}
+		explicit inline Exception(std::string_view error) : msg {error} {}
 		inline std::string_view what() { return msg; }
 	};
 
