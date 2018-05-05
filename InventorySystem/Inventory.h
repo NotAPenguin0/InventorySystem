@@ -2,7 +2,6 @@
 
 #include "IItem.h"
 #include "ItemDispatcher.h"
-#include <vector>
 #include <memory>
 #include <functional>
 #include <string>

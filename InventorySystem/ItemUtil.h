@@ -39,6 +39,7 @@ inline std::string ItemName(ItemID id)
 	if (id == ItemID::SWORD) return "Sword";
 	if (id == ItemID::DAMAGE_POTION) return "Damage Potion";
 	if (id == ItemID::HEAL_POTION) return "Healing Potion";
+	return "Unknown Item";
 }
 
 template<typename ItemT>
@@ -48,5 +49,5 @@ inline ItemID ItemId()
 	if constexpr(std::is_same_v<ItemT, DamagePotion>) return ItemID::DAMAGE_POTION;
 	if constexpr(std::is_same_v<ItemT, HealPotion>) return ItemID::HEAL_POTION;
 	if constexpr(std::is_same_v<ItemT, Sword>) return ItemID::SWORD;
-	else return ItemID::UNKNOWN_ITEM;
+	return ItemID::UNKNOWN_ITEM;
 }

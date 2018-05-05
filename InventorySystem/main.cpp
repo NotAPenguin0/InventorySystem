@@ -123,7 +123,7 @@ public:
 
 			Inventory<100> inv { this };
 
-			inv.emplaceItem<ItemType<ItemID::DAMAGE_POTION>>("P", 20);
+			inv.emplaceItem<ItemType<ItemID::DAMAGE_POTION>::type>("P", 20);
 			inv.addItem<DamagePotion>("P");
 
 			std::cout << ItemName(ItemID::HEAL_POTION) << ' ' << ItemId<Sword>() << '\n';
