@@ -57,7 +57,6 @@ namespace temp
  *
  *	RETURN TYPE      |      NAME        |       DEFAULT VALUE
  *	-----------------|------------------|--------------------
- *	std::string      |      name        |       "Default Item"
  *	ItemID           |      id          |       ItemID::DEFAULT_ITEM
  *	bool             |      reusable    |       false 
  *	bool             |      equippable  |       false
@@ -79,7 +78,6 @@ public:
 	IItem();
 	virtual ~IItem();
 
-	STRING_ATTRIBUTE(name, "Default Item")
 	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
 	ATTRIBUTE(reusable, false)
 	ATTRIBUTE(equippable, false)

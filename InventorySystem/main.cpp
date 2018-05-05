@@ -2,6 +2,7 @@
 #include "Inventory.h"
 #include "HealPotion.h"
 #include "Sword.h"
+#include "ItemUtil.h"
 
 std::ostream& operator<<(std::ostream& out, ItemID const& id)
 {
@@ -24,8 +25,6 @@ public:
 	{
 		try
 		{
-			
-
 			m_inventory.emplaceItem<DamagePotion>("Damage Potion I", 50);
 			m_inventory.emplaceItem<HealPotion>("Heal Potion I", 70);
 			m_inventory.emplaceItem<Sword>("Sword I", 20);
@@ -124,8 +123,10 @@ public:
 
 			Inventory<100> inv { this };
 
-			inv.emplaceItem<DamagePotion>("P", 20);
+			inv.emplaceItem<ItemType<ItemID::DAMAGE_POTION>>("P", 20);
 			inv.addItem<DamagePotion>("P");
+
+			std::cout << ItemName(ItemID::HEAL_POTION) << ' ' << ItemId<Sword>() << '\n';
 
 			std::cout << inv.getItemCount("P") << '\n';
 
