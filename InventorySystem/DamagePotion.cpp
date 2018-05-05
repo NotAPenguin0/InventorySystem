@@ -1,7 +1,5 @@
 #include "DamagePotion.h"
 
-
-
 DamagePotion::DamagePotion(int damage) : m_dmg(damage)
 {
 }

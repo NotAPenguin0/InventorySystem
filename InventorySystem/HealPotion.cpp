@@ -1,7 +1,5 @@
 #include "HealPotion.h"
 
-
-
 HealPotion::HealPotion(int hp) : m_hp(hp)
 {
 }
