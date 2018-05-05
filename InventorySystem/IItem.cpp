@@ -49,15 +49,6 @@ IItem::IItem()
 IItem::~IItem()
 = default;
 
-void IItem::use(temp::GameObject* target)
-{
-
-}
-
-void IItem::unequip(GameObjTy* target)
-{
-
-}
 
 
 bool IItem::is_equipped()
