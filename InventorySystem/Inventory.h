@@ -438,6 +438,7 @@ void Inventory<MAX_SIZE, GameObjTy, ItemTy>::useItem(iterator pos, game_object_p
 	}
 	else
 	{
+		dispatcher.setTarget(target);
 		item->use(dispatcher); //dispatcher.target == target, see construction above
 	}
 

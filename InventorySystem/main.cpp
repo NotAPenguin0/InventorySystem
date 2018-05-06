@@ -144,16 +144,12 @@ public:
 	}
 };
 
-template<typename T>
-void foo(T t)
-{
-	t.something();
-}
+
 
 int main()
 {
 
-//	Player p;
+	Player p;
 
 
 //	IItem* base_ptr;

@@ -43,6 +43,5 @@ GameObjTy* IItemDispatcher<GameObjTy>::target()
 template<typename GameObjTy>
 void IItemDispatcher<GameObjTy>::setTarget(GameObjTy* target)
 {
-	if (target != nullptr)
-		m_target = target;
+	m_target = target;
 }

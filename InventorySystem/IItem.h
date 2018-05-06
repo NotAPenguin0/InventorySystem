@@ -81,6 +81,11 @@ public:
 
 	void set_equip(bool eq);
 
+protected:
+	void setEquippable(bool eq);
+	void setStackable(bool stack);
+	void setReusable(bool reuse);
+
 private:
 	static const std::size_t EQUIPPABLE_POS = 0;
 	static const std::size_t REUSABLE_POS = 1;
@@ -88,7 +93,7 @@ private:
 	static const std::size_t EQUIPPED_POS = 3;
 
 	ItemID m_id;
-	std::bitset<ATTRIBUTE_COUNT> m_attributes;
+	std::bitset<ATTRIBUTE_COUNT+1> m_attributes; //+1 to store Equipped_Pos
 };
 
 

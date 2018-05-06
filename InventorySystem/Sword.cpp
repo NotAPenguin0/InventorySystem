@@ -4,6 +4,9 @@
 
 Sword::Sword(int pwr) : IItem(ItemID::SWORD), m_power(pwr)
 {
+	setEquippable(true);
+	setReusable(false);
+	setStackable(false);
 }
 
 

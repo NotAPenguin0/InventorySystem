@@ -86,3 +86,18 @@ ItemID IItem::id()
 {
 	return m_id;
 }
+
+void IItem::setEquippable(bool eq)
+{
+	m_attributes[EQUIPPABLE_POS] = eq;
+}
+
+void IItem::setStackable(bool stack)
+{
+	m_attributes[STACKABLE_POS] = stack;
+}
+
+void IItem::setReusable(bool reuse)
+{
+	m_attributes[REUSABLE_POS] = reuse;
+}
