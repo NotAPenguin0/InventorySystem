@@ -16,11 +16,6 @@ public:
 
 	virtual void use(ItemDispatcher<GameObjTy>& dispatcher) override;
 
-
-	STRING_ATTRIBUTE(name, "Sword")
-	ATTRIBUTE(equippable, true)
-	ATTRIBUTE(id, ItemID::SWORD)
-
 private:
 	int m_power;
 };

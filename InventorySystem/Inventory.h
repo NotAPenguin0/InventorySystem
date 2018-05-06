@@ -189,7 +189,6 @@ private:
 public:
 	static_assert(Traits::IsValidItemV<ItemTy>, "Item type is invalid. It should provide methods listed in documentation");
 	
-
 	class Exception
 	{
 	private:
