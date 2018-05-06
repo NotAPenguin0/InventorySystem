@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <string_view>
+#include <bitset>
 
 namespace temp
 {
@@ -33,17 +34,6 @@ namespace temp
 
 };
 
-/*
-#define ATTRIBUTE_NAME(_name) inline virtual std::string name() override {return _name;}
-#define ATTRIBUTE_ID(ID) inline virtual ItemID id() override {return ID;}
-#define ATTRIBUTE_REUSABLE(reusable_) inline virtual bool reusable() override {return reusable_;}
-
-#define BASE_ATTRIBUTE_NAME(_name) inline virtual std::string name() {return _name;}
-#define BASE_ATTRIBUTE_ID(ID) inline virtual ItemID id() {return ID;}
-#define BASE_ATTIRBUTE_REUSABLE(reusable_) inline virtual bool reusable() {return reusable_;}
-
-*/
-
 
 /*Watch out with this one, always double check when adding a new attribute!!*/
 #define ATTRIBUTE(name, value) virtual decltype(value) name() const {return value;}
@@ -55,12 +45,12 @@ namespace temp
  *done simply by modifying the base IItem class in the same way you would add an attribute to the derived Items.
  *Currently supported attributes are:
  *
- *	RETURN TYPE      |      NAME        |       DEFAULT VALUE
- *	-----------------|------------------|--------------------
- *	ItemID           |      id          |       ItemID::DEFAULT_ITEM
- *	bool             |      reusable    |       false 
- *	bool             |      equippable  |       false
- *	bool             |      stackable   |       true
+ *	RETURN TYPE      |      NAME        |       DEFAULT VALUE          | Position in attributes bitset
+ *	-----------------|------------------|------------------------------|------------------------------
+ *	ItemID           |      id          |       ItemID::DEFAULT_ITEM   |              None
+ *	bool             |      reusable    |       false                  |              1 
+ *	bool             |      equippable  |       false                  |              0
+ *	bool             |      stackable   |       true                   |              2
  *	
  *	
  *	If you don't override an attributes value, it will get the default value*/
@@ -71,25 +61,34 @@ class ItemDispatcher;
 class IItem
 {
 public:
+	static const int ATTRIBUTE_COUNT = 3; /*3 because isEquipped is not an attribute that the user can set*/
+
 	using GameObjTy = temp::GameObject;
 
 	friend class ItemDispatcher<GameObjTy>;
-
-	IItem();
+	
+	IItem(ItemID id, std::bitset<ATTRIBUTE_COUNT> attributes = std::bitset<ATTRIBUTE_COUNT> {});
 	virtual ~IItem();
-
-	ATTRIBUTE(id, ItemID::DEFAULT_ITEM)
-	ATTRIBUTE(reusable, false)
-	ATTRIBUTE(equippable, false)
-	ATTRIBUTE(stackable, true)
 
 	virtual void use(ItemDispatcher<GameObjTy>& dispatcher) = 0;
 
+	bool reusable();
+	bool stackable();
+	bool equippable();
 	bool is_equipped();
+
+	ItemID id();
+
 	void set_equip(bool eq);
 
 private:
-	bool m_equipped { false };
+	static const std::size_t EQUIPPABLE_POS = 0;
+	static const std::size_t REUSABLE_POS = 1;
+	static const std::size_t STACKABLE_POS = 2;
+	static const std::size_t EQUIPPED_POS = 3;
+
+	ItemID m_id;
+	std::bitset<ATTRIBUTE_COUNT> m_attributes;
 };
 
 

@@ -41,22 +41,48 @@ namespace temp
 	}
 };
 
-IItem::IItem()
+
+
+IItem::IItem(ItemID id, std::bitset<ATTRIBUTE_COUNT> attributes /* = std::bitset<ATTRIBUTE_COUNT> {}*/)
+	: m_id { id }
 {
+	m_attributes[EQUIPPABLE_POS] = attributes[EQUIPPABLE_POS];
+	m_attributes[STACKABLE_POS] = attributes[STACKABLE_POS];
+	m_attributes[REUSABLE_POS] = attributes[REUSABLE_POS];
+	m_attributes[EQUIPPED_POS] = false;
+
 	ASSERT(!(equippable() && stackable()), "An item cannot be stackable and equippable at the same time");
 }
 
 IItem::~IItem()
 = default;
 
-
+void IItem::set_equip(bool eq)
+{
+	m_attributes[EQUIPPED_POS] = eq;
+}
 
 bool IItem::is_equipped()
 {
-	return m_equipped;
+	return m_attributes.test(EQUIPPED_POS);
 }
 
-void IItem::set_equip(bool eq)
+bool IItem::equippable()
 {
-	m_equipped = eq;
+	return m_attributes.test(EQUIPPABLE_POS);
+}
+
+bool IItem::reusable()
+{
+	return m_attributes.test(REUSABLE_POS);
+}
+
+bool IItem::stackable()
+{
+	return m_attributes.test(STACKABLE_POS);
+}
+
+ItemID IItem::id()
+{
+	return m_id;
 }

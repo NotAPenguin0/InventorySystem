@@ -1,7 +1,7 @@
 #include "HealPotion.h"
 #include "ItemDispatcher.h"
 
-HealPotion::HealPotion(int hp) : m_hp(hp)
+HealPotion::HealPotion(int hp) : IItem(ItemID::HEAL_POTION), m_hp(hp)
 {
 }
 

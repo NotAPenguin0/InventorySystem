@@ -14,10 +14,6 @@ public:
 
 	virtual void use(ItemDispatcher<GameObjTy>& dispatcher) override;
 
-	STRING_ATTRIBUTE(name, "Damage Potion")
-	ATTRIBUTE(id, ItemID::DAMAGE_POTION)
-	ATTRIBUTE(reusable, false)
-
 private:
 	int m_dmg;
 };

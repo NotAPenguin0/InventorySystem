@@ -1,7 +1,7 @@
 #include "DamagePotion.h"
 #include "ItemDispatcher.h"
 
-DamagePotion::DamagePotion(int damage) : m_dmg(damage)
+DamagePotion::DamagePotion(int damage) : IItem(ItemID::DAMAGE_POTION), m_dmg(damage)
 {
 }
 

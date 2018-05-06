@@ -144,11 +144,14 @@ public:
 	}
 };
 
+template<typename T>
+void foo(T t)
+{
+	t.something();
+}
 
 int main()
 {
-	TestClass T;
-
 
 //	Player p;
 

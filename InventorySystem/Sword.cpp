@@ -2,7 +2,7 @@
 #include "ItemDispatcher.h"
 
 
-Sword::Sword(int pwr) : m_power(pwr)
+Sword::Sword(int pwr) : IItem(ItemID::SWORD), m_power(pwr)
 {
 }
 
